@@ -42,7 +42,7 @@ function getLists(){
     
     var ui = SpreadsheetApp.getUi();
     var answer = false;
-    //Logger.log(lists);
+    
     while(!answer){
     var a = [];
     for (var i in lists){
@@ -50,8 +50,6 @@ function getLists(){
         //Logger.log(lists[i]);
         a.push(i + ': ' + lists[i]['name']);
       }
-      //answer = true;
-      //Logger.log(a);
       
       var userResponse = ui.prompt("Listas MailChimp", "Digite o Número referenta a lista que se quer os dados: " + a.join(' ### '), ui.ButtonSet.YES_NO);
       if (userResponse.getSelectedButton() == ui.Button.YES){
@@ -88,7 +86,7 @@ function mailchimpContactsList() {
   var listIdnt = listas['id'];
   var root = 'https://us13.api.mailchimp.com/3.0/';
   var endpoint = 'lists/' + listIdnt + '/members?count=' + listas['stats']['member_count'];
-  //Logger.log(endpoint);
+  
   // parameters for url fetch
   var params = {
     'method': 'GET',
@@ -106,7 +104,7 @@ function mailchimpContactsList() {
     
     // get just campaign data
     var members = json['members'];
-    //Logger.log(members);
+
     // blank array to hold the campaign data for Sheet
     var campaignData = [];
 
@@ -147,9 +145,8 @@ function mailchimpContactsList() {
     var numCols = campaignData[0].length;
     
     sheet.getRange(1, 1, 1).setValue('Relação de Contatos na Lista ' + listas['name']);
-    //sheet.getRange(3, 1, 1, numCols).setValues();
-    //Logger.log
-    // output the numbers to the sheet
+    
+    // output the data to the sheet
     sheet.getRange(4,1,numRows,numCols).setValues(campaignData);
     
     sheet.getRange(1, 1).setFontSize(16);
